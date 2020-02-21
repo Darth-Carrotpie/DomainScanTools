@@ -42,36 +42,37 @@ def parse_urls():
     if os.path.isfile(filepath):
         print("--- Reading Input File ---")
         with open(filepath) as fp:
-           cnt = 0
-           for line in fp:
-               if(len(line) > 1):
-                   link = ""
-                   if("//" in line):
-                       parts = line.split("//", 1)
-                       link = parts[1] if len(parts) > 1 else parts[0]
-                       link = link.split(' ')[0].rstrip().replace(
-                           "[", '').replace(']', '')
-                   else:
-                       if(" " in line):
-                           link = line.split(' ')[1].rstrip().replace("[", '').replace(']', '')
-                   if(len(link) <= 1):
-                       link = re.findall(r'[0-9]+(?:\.[0-9]+){3}', line)
-                   else:
-                       if(len(link) > 1 and link not in urls):
-                          urls.append(link)
-                          print("Link {}:  -   {}".format(cnt, link))
+            cnt = 0
+            for line in fp:
+                if(len(line) > 1):
+                    link = ""
+                    if("//" in line):
+                        parts = line.split("//", 1)
+                        link = parts[1] if len(parts) > 1 else parts[0]
+                        link = link.split(' ')[0].rstrip().replace(
+                            "[", '').replace(']', '')
+                    else:
+                        if(" " in line):
+                            link = line.split(' ')[1].rstrip().replace(
+                                "[", '').replace(']', '')
+                    if(len(link) <= 1):
+                        link = re.findall(r'[0-9]+(?:\.[0-9]+){3}', line)
+                    else:
+                        if(len(link) > 1 and link not in urls):
+                            urls.append(link)
+                            print("Link {}:  -   {}".format(cnt, link))
 
-                   if(cnt % 10 == 0):
-                       pass
-                       # print()
-                   cnt += 1
+                    if(cnt % 10 == 0):
+                        pass
+                        # print()
+                    cnt += 1
     return urls
 
 
 def get_emails(s):
-    emailRegex = re.compile(("([a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`"
-                    "{|}~-]+)*(@|\sat\s)(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(\.|"
-                    "\sdot\s))+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)"))
+    # pylint: disable=no-member
+    emailRegex = re.compile(
+        ("([a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*(@|\sat\s)(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(\.|\sdot\s))+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)"))
     return {email[0] for email in re.findall(emailRegex, s) if not email[0].startswith('//')}
 
 
@@ -80,14 +81,15 @@ def get_contacts(urls):
 
     for url in urls:
         try:
-            ip = socket.gethostbyname(url.split("//",1)[1].split("/",1)[0])
+            ip = socket.gethostbyname(url.split("//", 1)[1].split("/", 1)[0])
             if(ip not in ips):
                 ips[ip] = [url]
             else:
                 if(url not in ips[ip]):
                     ips[ip].append(url)
         except socket.gaierror as error:
-             logging.error('could not get IP from socket of URL: '+url.split("//",1)[1].split("/",1)[0])
+            logging.error('could not get IP from socket of URL: ',
+                          url.split("//", 1)[1].split("/", 1)[0])
     contacts = {}
     for ip in ips:
         obj = IPWhois(ip)
@@ -98,10 +100,12 @@ def get_contacts(urls):
         abuseObj = res["objects"][abuseEntity]
         providerName = abuseObj["contact"]["name"]
 
-        # abuseEmail = abuseObj["contact"]["email"][len(abuseObj["contact"]["email"])-1]["value"] if abuseObj["contact"]["email"] != None else 'no abuse email found - try manual lookup'
         print(str(res))
         abuseEmail = get_emails(str(res))
-        contacts[ip] = {"country":res["asn_country_code"], "name":providerName, "description":res["asn_description"], "ip":ip, "email":abuseEmail}
+        contacts[ip] = {"country": res["asn_country_code"],
+                        "name": providerName,
+                        "description": res["asn_description"],
+                        "ip": ip, "email": abuseEmail}
     # print(contacts)
     return ips, contacts
 
@@ -124,7 +128,7 @@ def get_responses(urls):
             if(pre in url):
                 t = GetUrlThread(url)
             else:
-                t = GetUrlThread(pre+url)
+                t = GetUrlThread(pre + url)
             threads.append(t)
             t.start()
         for t in threads:
@@ -135,10 +139,10 @@ def get_responses(urls):
     print()
     # print(aliveUrls)
     print("--- Probing COMPLETED ---")
-    print("Elapsed time: %s" % (time.time()-start))
+    print("Elapsed time: %s" % (time.time() - start))
     # save_urls(aliveUrls)
     urls, contacts = get_contacts(aliveUrls)
-    outputLineList = [] # contacts[i] if i % 2 == 0 else urls[i] for line in range(len(urls) + len(contacts))
+    outputLineList = []
     for ip, ip2 in zip(urls, contacts):
         outputLineList.append(contacts[ip])
         for i in range(len(urls[ip])):
@@ -149,8 +153,8 @@ def get_responses(urls):
     print("---   URLs Probed:  {}   ---".format(len(aliveUrls)))
     print("---   IPs Found:  {}   ---".format(len(contacts)))
     providers = list(x["name"] for x in contacts.values())
-    print("---   Providers Found:  {}   ---".format( len(providers)))
-    print("--- ",providers, " ---")
+    print("---   Providers Found:  {}   ---".format(len(providers)))
+    print("--- ", providers, " ---")
 
 
 urls = parse_urls()
@@ -159,6 +163,7 @@ if(len(urls) > 0):
     print("---   Probing...    ---")
     get_responses(urls)
 else:
-    print("No input file found or the file is empty....\nplease create a file named 'input.txt' and place it in 'IO' folder of this program.")
+    print("No input file found or the file is empty....\nplease create a file"
+          " named 'input.txt' and place it in 'IO' folder of this program.")
 
 input("Press Enter to continue...")
