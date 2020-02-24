@@ -31,8 +31,14 @@ class GetUrlThread(Thread):
                     'some other error happened while probing: ' + self.url)
         else:
             logging.info('Access successful.')
-            print(self.url + "  " + str(response.getcode()))
-            self.alive = self.url
+            DOWN_RESPONSES = ["Svetainė išjungta",
+                              "Website is disabled", "Веб-сайт выключен"]
+            if not any(x in response.read().decode('utf-8') for x in DOWN_RESPONSES):
+                self.alive = self.url
+                print(self.url + "  " + str(response.getcode()))
+            else:
+                print(self.url + "  " + "-Website turned off by Host-")
+
         # resp = urllib.request.urlopen(self.url)
 
 
@@ -166,4 +172,8 @@ else:
     print("No input file found or the file is empty....\nplease create a file"
           " named 'input.txt' and place it in 'IO' folder of this program.")
 
+curr_path = os.path.dirname(os.path.abspath(__file__))
+abs_path = os.path.join(curr_path, "IO/output.txt")
+
+os.startfile(abs_path)
 input("Press Enter to continue...")

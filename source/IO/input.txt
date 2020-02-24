@@ -1,7 +1,0 @@
-
-hXXps://webapp-apple-service-caseid.service-securityid.com lookup host/account/?view=done
-hXXps://webapp-apple-service-caseid.service-securityid.com lookup host/account/?appIdKey=146bce423e2c978&country=US&view=login
-hXXps://webapp-apple-service-caseid.service-securityid.com lookup host/
-hXXps://webapp-apple-service-caseid.service-securityid.com lookup host/account/?view=login
-hXXps://webapp-apple-service-caseid.service-securityid.com lookup host/account/?view=update
-hXXps://webapp-apple-service-caseid.service-securityid.com lookup host/account/novbv.php lookup host
