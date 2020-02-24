@@ -8,6 +8,9 @@ import logging
 import os
 import re
 from ipwhois import IPWhois
+# import gzip
+# import io
+import chardet
 
 
 class GetUrlThread(Thread):
@@ -32,14 +35,23 @@ class GetUrlThread(Thread):
         else:
             logging.info('Access successful.')
             DOWN_RESPONSES = ["Svetainė išjungta",
-                              "Website is disabled", "Веб-сайт выключен"]
-            if not any(x in response.read().decode('utf-8') for x in DOWN_RESPONSES):
+                              "Website is disabled", "Веб-сайт выключен",
+                              "/defaultwebpage.cgi",
+                              "been a server misconfiguration",
+                              "may have moved to a different server"]
+            buffer = response.read()
+            # buffer = io.BytesIO(response.read())
+            # gziped_file = gzip.GzipFile(fileobj=buffer)
+            # decoded = gziped_file.read()
+            encoding = chardet.detect(buffer)
+            print(encoding['encoding'])
+            content = buffer.decode(encoding['encoding'])
+            if not any(x in content for x in DOWN_RESPONSES):
                 self.alive = self.url
                 print(self.url + "  " + str(response.getcode()))
+                print(content)
             else:
                 print(self.url + "  " + "-Website turned off by Host-")
-
-        # resp = urllib.request.urlopen(self.url)
 
 
 def parse_urls():
@@ -106,7 +118,7 @@ def get_contacts(urls):
         abuseObj = res["objects"][abuseEntity]
         providerName = abuseObj["contact"]["name"]
 
-        print(str(res))
+        # print(str(res))
         abuseEmail = get_emails(str(res))
         contacts[ip] = {"country": res["asn_country_code"],
                         "name": providerName,

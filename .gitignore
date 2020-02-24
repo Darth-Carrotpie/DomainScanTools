@@ -1,7 +1,7 @@
 # custom:
 IO/
-# input.txt
-# output.txt
+input.txt
+output.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
