@@ -1,4 +1,6 @@
 import os
+from .stringRegexHelper import getFirstIP
+from .objects.LogChunk import LogChunk
 
 
 def parseUrlsFromFile(filepath):
@@ -31,3 +33,22 @@ def parseUrlsFromFile(filepath):
                         # print()
                     cnt += 1
     return urls
+
+
+def parseIpsFromFile(filepath):
+    chunks = {}
+    if os.path.isfile(filepath):
+        print("--- Reading Input File ---")
+        with open(filepath) as fp:
+            cnt = 0
+            for line in fp:
+                if(len(line) > 1):
+                    # line = line.replace(".123", "")
+                    newIP = getFirstIP(line)
+                    if(newIP):
+                        if newIP in chunks:
+                            chunks[newIP].addChunkLine(line)
+                        else:
+                            chunks[newIP] = LogChunk(newIP)
+    print("--- Read {} Unique IPs ---".format(len(chunks)))
+    return chunks
