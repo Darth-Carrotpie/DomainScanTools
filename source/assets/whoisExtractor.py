@@ -45,7 +45,7 @@ def getIpsAndContacts(urls):
                                 "description": res["asn_description"],
                                 "ip": ip, "email": abuseEmail}
             except HTTPLookupError as error:
-                logging.error(error)
+                logging.error(str(error)+" : "+str(ip))
 
     # print(contacts)
     return ips, contacts

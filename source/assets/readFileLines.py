@@ -50,5 +50,18 @@ def parseIpsFromFile(filepath):
                             chunks[newIP].addChunkLine(line)
                         else:
                             chunks[newIP] = LogChunk(newIP)
+                            chunks[newIP].addChunkLine(line)
     print("--- Read {} Unique IPs ---".format(len(chunks)))
     return chunks
+
+
+def countTotalLinesInFile(file):
+    def blocks(files, size=65536):
+        while True:
+            b = files.read(size)
+            if not b:
+                break
+            yield b
+
+    with open(file, "r", encoding="utf-8", errors='ignore') as f:
+        return(sum(bl.count("\n") for bl in blocks(f)))
