@@ -5,6 +5,10 @@ class LogChunk():
         self.contacts = ""
         self.chunkName = ""
         self.chunkCountry = ""
+        self.titlesLine = ""
+
+    def setTitlesLine(self, newTitlesLine):
+        self.titlesLine = newTitlesLine
 
     def addChunkLine(self, newLogLine):
         self.mylogs.append(newLogLine.rstrip())

@@ -12,4 +12,7 @@ def getEmails(s):
 
 
 def getFirstIP(s):
-    return re.search(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', s).group()
+    try:
+        return re.search(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ''.join(s)).group()
+    except:
+        None

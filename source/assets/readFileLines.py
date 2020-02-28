@@ -1,6 +1,9 @@
 import os
 from .stringRegexHelper import getFirstIP
 from .objects.LogChunk import LogChunk
+import __main__ as main
+from os import path
+import csv
 
 
 def parseUrlsFromFile(filepath):
@@ -35,27 +38,35 @@ def parseUrlsFromFile(filepath):
     return urls
 
 
-def parseIpsFromFile(filepath):
+def parseIpsFromFiles(filepaths):
     chunks = {}
-    if os.path.isfile(filepath):
-        print("--- Reading Input File ---")
-        with open(filepath) as fp:
-            cnt = 0
-            for line in fp:
-                if(len(line) > 1):
-                    # line = line.replace(".123", "")
-                    newIP = getFirstIP(line)
-                    if(newIP):
-                        if newIP in chunks:
-                            chunks[newIP].addChunkLine(line)
+    titlesLine = ""
+    for filepath in filepaths:
+        print("checking filepath: "+filepath)
+        if path.isfile(filepath):
+            print("--- Reading Input File ---")
+            with open(filepath) as fp:
+                if (filepaths[0].endswith(".csv")):
+                    fp = csv.reader(fp)
+                for line in fp:
+                    line = ','.join(line)
+                    if(len(line) > 1):
+                        # line = line.replace(".123", "")
+                        newIP = getFirstIP(line)
+                        if(newIP):
+                            if newIP in chunks:
+                                chunks[newIP].addChunkLine(line)
+                            else:
+                                chunks[newIP] = LogChunk(newIP)
+                                chunks[newIP].setTitlesLine(titlesLine)
+                                chunks[newIP].addChunkLine(line)
                         else:
-                            chunks[newIP] = LogChunk(newIP)
-                            chunks[newIP].addChunkLine(line)
+                            titlesLine = line
     print("--- Read {} Unique IPs ---".format(len(chunks)))
     return chunks
 
 
-def countTotalLinesInFile(file):
+def countTotalLinesInFiles(files):
     def blocks(files, size=65536):
         while True:
             b = files.read(size)
@@ -63,5 +74,24 @@ def countTotalLinesInFile(file):
                 break
             yield b
 
-    with open(file, "r", encoding="utf-8", errors='ignore') as f:
-        return(sum(bl.count("\n") for bl in blocks(f)))
+    def openAndRead(file):
+        with open(file, "r", encoding="utf-8", errors='ignore') as f:
+            return(sum(bl.count("\n") for bl in blocks(f)))
+
+    return sum(list(map(openAndRead, files)))
+
+
+def getInputFilePaths(isCsv, defaultName):
+    curr_path = path.dirname(path.abspath(main.__file__))
+    abs_path = path.join(curr_path, "IO")
+    outputPaths = []
+    if not isCsv:
+        outputPaths.append(path.join(abs_path,  defaultName))
+    else:
+        for root, dirs, files in os.walk(abs_path):
+            for file in files:
+                # print("found file {} in dir: {}".format(file, root))
+                if file.endswith(".csv"):
+                    outputPaths.append(os.path.join(root, file))
+
+    return outputPaths

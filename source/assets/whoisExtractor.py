@@ -41,8 +41,7 @@ def getIpsAndContacts(urls):
                 # print(str(res))
                 abuseEmail = getEmails(str(res))
                 contacts[ip] = {"country": res["asn_country_code"],
-                                "name": providerName,
-                                "description": res["asn_description"],
+                                "name": res["asn_description"],
                                 "ip": ip, "email": abuseEmail}
             except HTTPLookupError as error:
                 logging.error(str(error)+" : "+str(ip))
