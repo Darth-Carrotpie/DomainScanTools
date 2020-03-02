@@ -39,11 +39,11 @@ class GetUrlThread(Thread):
             # gziped_file = gzip.GzipFile(fileobj=buffer)
             # decoded = gziped_file.read()
             encoding = chardet.detect(buffer)
-            print(encoding['encoding'])
+            print("encoding: " + encoding['encoding'])
             content = buffer.decode(encoding['encoding'])
             if not any(x in content for x in DOWN_RESPONSES):
                 self.alive = self.url
                 print(self.url + "  " + str(response.getcode()))
-                print(content)
+                # print(content)
             else:
                 print(self.url + "  " + "-Website turned off by Host-")

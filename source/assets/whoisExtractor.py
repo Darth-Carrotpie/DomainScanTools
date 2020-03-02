@@ -4,17 +4,17 @@ import socket
 import logging
 
 
-def getIpsAndContacts(urls):
+def getIpsAndContacts(urls, isIP):
     ips = {}
 
     for url in urls:
         try:
-            if(getFirstIP(urls[0]) != ""):
+            if(isIP):
                 ip = url
+                print("got ip: "+ip)
             else:
                 ip = socket.gethostbyname(
                     url.split("//", 1)[1].split("/", 1)[0])
-                print('no ip to get, interpreting as url')
             if(ip not in ips):
                 ips[ip] = [url]
             else:

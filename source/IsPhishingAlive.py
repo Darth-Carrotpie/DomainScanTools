@@ -9,8 +9,8 @@ if(len(urls) > 0):
     print()
     print("---   Probing...    ---")
     responses = getUrlResponses(urls)
-    saveLinesToOutput(responses, "IO/output.txt")
-    openOutput("IO/output.txt")
+    saveLinesToOutput(responses, "scan")
+    openOutput("scan")
 else:
     print("No input file found or the file is empty....\nplease create a file"
           " named 'input.txt' and place it in 'IO' folder of this program.")

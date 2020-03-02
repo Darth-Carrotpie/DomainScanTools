@@ -28,10 +28,11 @@ def getUrlResponses(urls):
     print("--- Probing COMPLETED ---")
     print("Elapsed time: %s" % (time.time() - start))
     # save_urls(aliveUrls)
-    urls, contacts = getIpsAndContacts(aliveUrls)
+    urls, contacts = getIpsAndContacts(aliveUrls, False)
     outputLineList = []
     for ip, ip2 in zip(urls, contacts):
-        outputLineList.append(contacts[ip])
+        outputLineList.append(str(contacts[ip]).replace('"', "&%").
+                              replace("&%'", " ").replace("&%", " "))
         for i in range(len(urls[ip])):
             row = urls[ip][i].replace("http", "hXXp")
             outputLineList.append(row)

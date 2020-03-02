@@ -5,7 +5,7 @@ import __main__ as main
 def saveLinesToOutput(lines, outputFileName):
     # print("trying to save...:")
     # print(urls)
-    newFileName = "output {}.txt".format(outputFileName).replace(" ", "_")
+    newFileName = "{}.txt".format(outputFileName).replace(" ", "_")
     abs_path = path.join("IO", newFileName)
     with open(abs_path, 'w') as output:
         for row in lines:
@@ -14,6 +14,7 @@ def saveLinesToOutput(lines, outputFileName):
 
 
 def openOutput(outputFile):
+    newFileName = "{}.txt".format(outputFile).replace(" ", "_")
     curr_path = path.dirname(path.abspath(main.__file__))
-    abs_path = path.join(curr_path, "IO", outputFile)
+    abs_path = path.join(curr_path, "IO", newFileName)
     startfile(abs_path)

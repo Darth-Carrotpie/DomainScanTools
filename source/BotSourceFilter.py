@@ -17,7 +17,7 @@ logChunks = parseIpsFromFiles(inputFilePaths)
 if(len(logChunks) > 0):
     print()
     print("---   Probing...    ---")
-    ips, contacts = getIpsAndContacts(list(logChunks.keys()))
+    ips, contacts = getIpsAndContacts(list(logChunks.keys()), True)
     [logChunks[ip].setContacts(contacts[ip])
      for ip in logChunks.keys() if ip in contacts]
     print("total log lines: "+str(countTotalLinesInFiles(inputFilePaths)))
