@@ -1,7 +1,9 @@
 # custom:
 source/IO/
-*.txt
-*.csv
+/source/IO/
+/IO/
+#*.txt
+#*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
