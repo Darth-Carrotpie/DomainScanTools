@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 import logging
-from assets.readFileLines import parseUrlsFromFile
+from assets.readFileLines import parseUrlsFromFile, getInputFilePaths
 from assets.saveFileLines import saveLinesToOutput, openOutput
 from assets.netProber import getUrlResponses
-
-urls = parseUrlsFromFile("IO/input.txt")
+urls = parseUrlsFromFile("input.txt")
 if(len(urls) > 0):
     print()
     print("---   Probing...    ---")

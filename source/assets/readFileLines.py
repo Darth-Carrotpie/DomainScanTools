@@ -4,13 +4,17 @@ from .objects.LogChunk import LogChunk
 import __main__ as main
 from os import path
 import csv
+import re
 
 
-def parseUrlsFromFile(filepath):
+def parseUrlsFromFile(fileName):
     urls = []
-    if os.path.isfile(filepath):
+    currPath = path.dirname(path.abspath(main.__file__))
+    absPath = path.join(currPath, "IO")
+    fullPath = path.join(absPath, fileName)
+    if os.path.isfile(fullPath):
         print("--- Reading Input File ---")
-        with open(filepath) as fp:
+        with open(fullPath) as fp:
             cnt = 0
             for line in fp:
                 if(len(line) > 1):
@@ -33,7 +37,6 @@ def parseUrlsFromFile(filepath):
 
                     if(cnt % 10 == 0):
                         pass
-                        # print()
                     cnt += 1
     return urls
 
@@ -51,7 +54,6 @@ def parseIpsFromFiles(filepaths):
                 for line in fp:
                     line = ','.join(line)
                     if(len(line) > 1):
-                        # line = line.replace(".123", "")
                         newIP = getFirstIP(line)
                         if(newIP):
                             if newIP in chunks:
@@ -90,7 +92,6 @@ def getInputFilePaths(isCsv, defaultName):
     else:
         for root, dirs, files in os.walk(abs_path):
             for file in files:
-                # print("found file {} in dir: {}".format(file, root))
                 if file.endswith(".csv"):
                     outputPaths.append(os.path.join(root, file))
 

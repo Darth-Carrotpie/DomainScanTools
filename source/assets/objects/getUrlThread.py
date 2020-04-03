@@ -4,8 +4,6 @@ from threading import Thread
 import socket
 import chardet
 import logging
-# import gzip
-# import io
 
 
 class GetUrlThread(Thread):
@@ -16,7 +14,6 @@ class GetUrlThread(Thread):
 
     def run(self):
         try:
-            # .read() .decode('utf-8', 'ignore')
             response = urllib.request.urlopen(self.url, timeout=10)
         except HTTPError as error:
             logging.error(
@@ -35,9 +32,6 @@ class GetUrlThread(Thread):
                               "been a server misconfiguration",
                               "may have moved to a different server"]
             buffer = response.read()
-            # buffer = io.BytesIO(response.read())
-            # gziped_file = gzip.GzipFile(fileobj=buffer)
-            # decoded = gziped_file.read()
             encoding = chardet.detect(buffer)
             print("encoding: " + encoding['encoding'])
             content = buffer.decode(encoding['encoding'])

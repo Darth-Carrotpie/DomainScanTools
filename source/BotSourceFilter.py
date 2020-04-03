@@ -8,12 +8,11 @@ import sys
 print("Enter options if needed. Otherwise leave empty. Options available:")
 print("-o    :open output files after completion.")
 print("-csv    :input files are of type .csv instead of a single input.txt.")
+
 arguments = input("Input:")
-# print("-i    :specify input file name other than 'input.txt'.")
-# arguments = str(sys.argv)
 inputFilePaths = getInputFilePaths("-csv" in arguments, "inputA.txt")
-# print([x for x in inputFilePaths])
 logChunks = parseIpsFromFiles(inputFilePaths)
+
 if(len(logChunks) > 0):
     print()
     print("---   Probing...    ---")
@@ -33,7 +32,6 @@ if(len(logChunks) > 0):
             if(currentName != ""):
                 outputFileNames.append(
                     saveLinesToOutput(linesToSave, currentName))
-            # print("oldname: "+currentName + " newname: "+newName)
             currentName = newName
             linesToSave = []
             linesToSave.append(str(chunk.contacts).replace('"', "&%").

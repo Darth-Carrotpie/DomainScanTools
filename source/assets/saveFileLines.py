@@ -3,8 +3,6 @@ import __main__ as main
 
 
 def saveLinesToOutput(lines, outputFileName):
-    # print("trying to save...:")
-    # print(urls)
     newFileName = "{}.txt".format(outputFileName).replace(" ", "_")
     abs_path = path.join("IO", newFileName)
     with open(abs_path, 'w') as output:

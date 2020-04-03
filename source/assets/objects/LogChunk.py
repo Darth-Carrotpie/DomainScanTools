@@ -15,7 +15,6 @@ class LogChunk():
 
     def setContacts(self, newContacts):
         self.contacts = newContacts
-        # print("set new contact: "+newContacts["name"])
         self.chunkName = newContacts["name"]
         self.chunkCountry = newContacts["country"]
 
