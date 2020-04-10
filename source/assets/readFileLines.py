@@ -1,5 +1,5 @@
 import os
-from .stringRegexHelper import getFirstIP
+from .stringRegexHelper import getIPFromLine
 from .objects.LogChunk import LogChunk
 import __main__ as main
 from os import path
@@ -41,7 +41,7 @@ def parseUrlsFromFile(fileName):
     return urls
 
 
-def parseIpsFromFiles(filepaths):
+def parseIpsFromFiles(filepaths, ipNo):
     chunks = {}
     titlesLine = ""
     for filepath in filepaths:
@@ -52,9 +52,9 @@ def parseIpsFromFiles(filepaths):
                 if (filepaths[0].endswith(".csv")):
                     fp = csv.reader(fp)
                 for line in fp:
-                    line = ','.join(line)
+                    # line = ','.join(line)
                     if(len(line) > 1):
-                        newIP = getFirstIP(line)
+                        newIP = getIPFromLine(line, ipNo)
                         if(newIP):
                             if newIP in chunks:
                                 chunks[newIP].addChunkLine(line)

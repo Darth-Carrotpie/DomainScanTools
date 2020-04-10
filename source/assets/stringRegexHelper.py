@@ -1,4 +1,5 @@
 import re
+import logging
 
 
 def getEmails(s):
@@ -16,3 +17,18 @@ def getFirstIP(s):
         return re.search(r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ''.join(s)).group()
     except:
         None
+
+
+def getIPFromLine(s, ipNo):
+    ipRegex = re.compile(
+        r"\b(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}"
+        r"(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\b"
+    )
+    # try:
+    print("regex in "+s)
+
+    m = re.findall(ipRegex, ''.join(s))
+    print(m)
+    return m[ipNo-1]
+    # except:
+    #logging.error('could not get [{}] IP log line'.format(ipNo))

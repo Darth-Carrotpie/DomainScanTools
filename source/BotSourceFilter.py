@@ -8,10 +8,17 @@ import sys
 print("Enter options if needed. Otherwise leave empty. Options available:")
 print("-o    :open output files after completion.")
 print("-csv    :input files are of type .csv instead of a single input.txt.")
+print("ip=    :which IP in columns is the source IP (default=1)")
 
 arguments = input("Input:")
-inputFilePaths = getInputFilePaths("-csv" in arguments, "inputA.txt")
-logChunks = parseIpsFromFiles(inputFilePaths)
+inputFilePaths = getInputFilePaths("-csv" in arguments, "input.txt")
+ipNo = [i for i in arguments.split() if "ip=" in i]
+if len(ipNo) > 0:
+    ipNo = int(ipNo[0].replace("ip=", ""))
+else:
+    ipNo = 1
+
+logChunks = parseIpsFromFiles(inputFilePaths, ipNo)
 
 if(len(logChunks) > 0):
     print()

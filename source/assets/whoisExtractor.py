@@ -1,5 +1,5 @@
 from ipwhois import IPWhois, HTTPLookupError
-from assets.stringRegexHelper import getFirstIP, getEmails
+from assets.stringRegexHelper import getEmails
 import socket
 import logging
 

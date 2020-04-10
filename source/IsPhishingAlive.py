@@ -4,6 +4,8 @@ from assets.readFileLines import parseUrlsFromFile, getInputFilePaths
 from assets.saveFileLines import saveLinesToOutput, openOutput
 from assets.netProber import getUrlResponses
 urls = parseUrlsFromFile("input.txt")
+
+
 if(len(urls) > 0):
     print()
     print("---   Probing...    ---")
