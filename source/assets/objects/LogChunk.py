@@ -11,7 +11,10 @@ class LogChunk():
         self.titlesLine = newTitlesLine
 
     def addChunkLine(self, newLogLine):
-        self.mylogs.append(newLogLine.rstrip())
+        line = newLogLine
+        if type(newLogLine) is list:
+            line = ",".join(newLogLine)
+        self.mylogs.append(line.rstrip())
 
     def setContacts(self, newContacts):
         self.contacts = newContacts
