@@ -3,6 +3,7 @@ from assets.readFileLines import parseIpsFromFiles, countTotalLinesInFiles, getI
 from assets.saveFileLines import saveLinesToOutput, openOutput
 from assets.netProber import getUrlResponses
 from assets.whoisExtractor import getIpsAndContacts
+from collections import OrderedDict
 import sys
 
 print("Enter options if needed. Otherwise leave empty. Options available:")
@@ -28,12 +29,17 @@ if(len(logChunks) > 0):
      for ip in logChunks.keys() if ip in contacts]
     print("total log lines: "+str(countTotalLinesInFiles(inputFilePaths)))
     print("total unique ips: "+str(len(logChunks)))
-    sortedChunks = sorted(logChunks, key=lambda ip: logChunks[ip].chunkName)
+    # sortedChunks = sorted(
+    #    {logChunks[key] for key in logChunks.keys() if logChunks[key].chunkName}, key=lambda ip: logChunks[ip].chunkName)
+    sortedChunks = OrderedDict(sorted({item for item in logChunks.items() if ((item[1] is not None) and (item[1].chunkName is not None))},
+                                      key=lambda x: (logChunks[x[0]].chunkName, x[0])))
+    #sortedChunks = sorted(logChunks, key=lambda ip: logChunks[ip].chunkName)
     linesToSave = []
     currentName = ""
     outputFileNames = []
-    for ip, chunk in sorted(logChunks.items(), key=lambda kv: (kv[1].chunkName,
-                                                               kv[0])):
+    # for ip, chunk in sorted(sortedChunks.items(), key=lambda kv: (kv[1].chunkName,
+    #                                                              kv[0])):
+    for ip, chunk in sortedChunks.items():
         newName = chunk.chunkCountry+"_"+chunk.chunkName[:10]
         if currentName != newName:
             if(currentName != ""):
