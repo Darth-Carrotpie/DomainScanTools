@@ -1,6 +1,7 @@
 import os
 from .stringRegexHelper import getIPFromLine
 from .objects.LogChunk import LogChunk
+from .objects.IPGroup import IPGroup
 import __main__ as main
 from os import path
 import csv
@@ -48,11 +49,13 @@ def parseIpsFromFiles(filepaths, ipNo):
         print("checking filepath: "+filepath)
         if path.isfile(filepath):
             print("--- Reading Input File ---")
-            with open(filepath) as fp:
-                if (filepaths[0].endswith(".csv")):
+            with open(filepath, newline='') as fp:
+                if(filepaths[0].endswith(".csv")):
                     fp = csv.reader(fp)
                 for line in fp:
-                    # line = ','.join(line)
+                    line = ','.join(line)
+                    print(line)
+                    # print(len(line))
                     if(len(line) > 1):
                         newIP = getIPFromLine(line, ipNo)
                         if(newIP):
@@ -66,7 +69,6 @@ def parseIpsFromFiles(filepaths, ipNo):
                             titlesLine = line
     print("--- Read {} Unique IPs ---".format(len(chunks)))
     return chunks
-
 
 def countTotalLinesInFiles(files):
     def blocks(files, size=65536):

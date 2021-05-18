@@ -1,3 +1,5 @@
+# changelog: use asyncio to parelilize scanning to speed up for large amounts of ips: https://docs.python.org/3/library/asyncio.html
+# write to files incrementaly?
 import logging
 from assets.readFileLines import parseIpsFromFiles, countTotalLinesInFiles, getInputFilePaths
 from assets.saveFileLines import saveLinesToOutput, openOutput

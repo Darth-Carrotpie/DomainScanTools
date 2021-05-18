@@ -27,20 +27,22 @@ def getIpsAndContacts(urls, isIP):
     for ip in ips:
         if(len(ip) > 7):
             # print("looking up: "+ip)
-            obj = IPWhois(ip)
             try:
-                res = obj.lookup_rdap()
+                obj = IPWhois(ip)
+                res = obj.lookup_rdap(asn_methods=['dns', 'whois', 'http'])
                 abuseEntity, abuseObj, providerName = ("",) * 3
                 if(len(res["entities"]) > 0):
                     abuseEntity = res["entities"][len(res["entities"]) - 1]
                     abuseObj = res["objects"][abuseEntity]
-                    providerName = abuseObj["contact"]["name"]
+                    if "contact" in abuseObj:
+                        providerName = abuseObj["contact"]["name"]
 
                 abuseEmail = getEmails(str(res))
                 contacts[ip] = {"country": res["asn_country_code"],
                                 "name": res["asn_description"],
                                 "ip": ip, "email": abuseEmail}
-            except HTTPLookupError as error:
-                logging.error(str(error)+" : "+str(ip))
+            except Exception as e:
+                logging.warning(str(e)+" : "+str(ip))
+                # contacts[ip] = {}
 
     return ips, contacts

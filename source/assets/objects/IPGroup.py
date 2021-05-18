@@ -1,14 +1,9 @@
-class LogChunk():
+class IPGroup():
     def __init__(self, ip):
-        self.ip = ip
-        self.mylogs = []
+        self.ips = []
         self.contacts = ""
         self.chunkName = ""
         self.chunkCountry = ""
-        self.titlesLine = ""
-
-    def setTitlesLine(self, newTitlesLine):
-        self.titlesLine = newTitlesLine
 
     def addChunkLine(self, newLogLine):
         line = newLogLine

@@ -25,9 +25,11 @@ def getIPFromLine(s, ipNo):
         r"(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\b"
     )
     try:
-        print("regex in ", '-'.join(s))
-        m = re.findall(ipRegex, '-'.join(s))
-        print(m)
+        #print("regex in ", ''.join(s))
+        m = re.findall(ipRegex, ''.join(s))
+        # print(m)
         return m[ipNo-1]
     except:
-        logging.error('could not get [{}] IP log line'.format(ipNo))
+        logging.warning(
+            'Could not get [{}] IP log line, must be title line!'.format(ipNo))
+        return None
