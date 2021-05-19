@@ -1,7 +1,6 @@
 # custom:
 source/IO/
 /source/IO/
-/IO/
 #*.txt
 #*.csv
 

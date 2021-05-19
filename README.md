@@ -9,12 +9,12 @@ Use this tool when you need to parse data from multiple botnet report feeds or s
 
 
 ## How to use
-1. Put all of the .csv report files into a folder /IO;
+1. Put all of the .csv report files into a folder ```/source/IO```. Names and extentions don't matter for .csv type, but for .txt must be called 'input.txt'. Other txts will be ignored;
 2. Run a main script:
       - for botnet parsing run /BotSourceFilter.py
       - for phishing activity checkup run /IsPhishingAlive.py
 3. Select file type by typing "-csv" into terminal input if the files are csv. If input left empty, type to read will be .txt by default.
-4. Your output will be stored as .txt files inside the /IO folder, each named by ASN name.
+4. Your output will be stored as .txt files inside the ```/source/IO``` folder, each named by ASN name.
 
 ## What not to do
 1. IO folder is scanned for ALL .csv, if you pick csv format. So delete the unused one before new scans. Otherwise new lists will include all of the logs.
