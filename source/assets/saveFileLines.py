@@ -1,4 +1,4 @@
-from os import path, startfile
+from os import path
 import __main__ as main
 
 
@@ -18,4 +18,4 @@ def openOutput(outputFile):
     newFileName = "{}.txt".format(outputFile).replace(" ", "_")
     curr_path = path.dirname(path.abspath(main.__file__))
     abs_path = path.join(curr_path, "IO", newFileName)
-    startfile(abs_path)
+    os.open(abs_path)
