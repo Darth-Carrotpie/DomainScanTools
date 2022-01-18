@@ -37,10 +37,10 @@ def getIpsAndContacts(urls, isIP):
                     if "contact" in abuseObj:
                         providerName = abuseObj["contact"]["name"]
 
-                abuseEmail = getEmails(str(res))
+                abuseEmails = getEmails(str(res))
                 contacts[ip] = {"country": res["asn_country_code"],
                                 "name": res["asn_description"],
-                                "ip": ip, "email": abuseEmail}
+                                "ip": ip, "email": abuseEmails}
             except Exception as e:
                 logging.warning(str(e)+" : "+str(ip))
                 # contacts[ip] = {}

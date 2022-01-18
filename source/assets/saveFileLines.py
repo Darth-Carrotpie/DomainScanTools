@@ -1,12 +1,20 @@
-from os import path
+from os import path, makedirs
 import __main__ as main
 
 
-def saveLinesToOutput(lines, outputFileName):
-    newFileName = "{}.txt".format(outputFileName).replace(" ", "_").replace("\\", "_").replace("-", "_")
+def saveLinesToOutput(lines, outputFileName, currentFolder):
+    newFileName = "{}.txt".format(outputFileName).replace(
+        " ", "_").replace("\\", "_").replace("-", "_")
+
     curr_path = path.dirname(path.abspath(main.__file__))
-    abs_path = path.join(curr_path, "IO", newFileName)
-    #abs_path = path.join("IO", newFileName)
+    if currentFolder:
+        abs_path = path.join(curr_path, "IO", currentFolder)
+        if not path.exists(abs_path):
+            makedirs(abs_path)
+        abs_path = path.join(abs_path, newFileName)
+    else:
+        abs_path = path.join(curr_path, "IO", newFileName)
+    # abs_path = path.join("IO", newFileName)
     print("writing file to: "+abs_path)
     with open(abs_path, 'w') as output:
         for row in lines:

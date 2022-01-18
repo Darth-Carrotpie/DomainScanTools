@@ -6,6 +6,7 @@ class LogChunk():
         self.chunkName = ""
         self.chunkCountry = ""
         self.titlesLine = ""
+        self.targetFolder = ""
 
     def setTitlesLine(self, newTitlesLine):
         self.titlesLine = newTitlesLine
