@@ -34,7 +34,8 @@ if(len(logChunks) > 0):
     [logChunks[ip].setContacts(contacts[ip]) for ip in logChunks.keys() if ip in contacts]
     print("total log lines: "+str(countTotalLinesInFiles(inputFilePaths)))
     print("total unique ips: "+str(len(logChunks)))
-
+    sortedChunks = OrderedDict(sorted({item for item in logChunks.items() if ((item[1] is not None) and (item[1].chunkName is not None))},
+                                      key=lambda x: (logChunks[x[0]].chunkName, x[0])))
     if "--no-f" not in arguments:
         # find unique emails and prepare names for foldering
 
