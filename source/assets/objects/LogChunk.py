@@ -33,6 +33,8 @@ class LogChunk():
         return output
 
     def GetEmails(self):
+        if self.contacts == "":
+            return ""
         return self.contacts["email"]
 
     def SaveChunkToFile(self):

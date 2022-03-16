@@ -62,6 +62,9 @@ if(len(logChunks) > 0):
                 print("opening: "+fileNameOpen)
                 openOutput(fileNameOpen)
 
+    else:
+        for chunk in list(sortedChunks.values()):
+            chunk.SaveChunkToFile()
 else:
     print("No input file found or the file is empty....\nplease create a file"
           " named 'input.txt' and place it in 'IO' folder of this program.")
