@@ -37,11 +37,20 @@ class FolderGroup():
             self.groupName = setName
             return
         inters = Intersections([chunk.GetEmails() for chunk in self.chunks])
+        abuseM = [s for s in inters if "abuse" in s]
+        newName = next(iter(abuseM)) if len(abuseM) > 0 else next(iter(inters))
         if(len(inters) == 0):
             self.groupName = ""
         else:
-            self.groupName = '_'.join(inters).replace('@', '_').replace("'", '').replace(" ", '')
+            self.groupName = newName.replace("'", '').replace(" ", '')
     
+    def IsSingle(self):
+        if len(self.chunks) == 1:
+            return True
+        if len(set([chunk.chunkName for chunk in self.chunks])) == 1:
+            return True
+        return False
+
     def SaveGroup(self):
         fileNames = []
         if self.groupName == "":

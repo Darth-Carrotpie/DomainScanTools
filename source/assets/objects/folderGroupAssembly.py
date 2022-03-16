@@ -48,10 +48,10 @@ class FolderGroupAssembly():
         return fileNames
 
     def SingleChunkGroups(self):
-        singles = [gr for gr in self.folderGroups if len(gr.chunks) == 1]
+        singles = [gr for gr in self.folderGroups if gr.IsSingle()]
         smallSingles, bigSingles = [], []
         for s in singles:
-            (smallSingles if len(s.chunks[0].mylogs) <= 5 else bigSingles).append(s)
+            (smallSingles if sum([len(c.mylogs) for c in s.chunks]) < 7 else bigSingles).append(s)
         for s in smallSingles:
             s.SetGroupName("_Small Singles")
         for s in bigSingles:
