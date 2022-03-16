@@ -31,5 +31,5 @@ def getIPFromLine(s, ipNo):
         return m[ipNo-1]
     except:
         logging.warning(
-            'Could not get [{}] IP log line, must be title line!'.format(ipNo))
+            'Could not get [{}] IP from log line, is it a title line? It is fine then! :: {}'.format(ipNo, s))
         return None

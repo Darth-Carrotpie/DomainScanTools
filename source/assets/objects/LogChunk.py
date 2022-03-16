@@ -1,3 +1,5 @@
+from assets.saveFileLines import saveChunkToOutput 
+
 class LogChunk():
     def __init__(self, ip):
         self.ip = ip
@@ -29,3 +31,13 @@ class LogChunk():
         for log in sorted(self.mylogs):
             output = output + log + "\n"
         return output
+
+    def GetEmails(self):
+        return self.contacts["email"]
+
+    def SaveChunkToFile(self):
+        concacts = str(self.contacts).replace('"', "&%").replace("&%'", " ").replace("&%", " ")
+        fileNameToSave = self.chunkCountry+"_"+self.chunkName[:15]
+
+        #print("total logs to save: "+str(len(self.mylogs))+" in chunk file called:"+fileNameToSave)
+        return saveChunkToOutput(concacts, self.titlesLine, self.mylogs, fileNameToSave, self.targetFolder)

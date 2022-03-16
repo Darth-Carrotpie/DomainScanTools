@@ -46,15 +46,15 @@ def parseIpsFromFiles(filepaths, ipNo):
     chunks = {}
     titlesLine = ""
     for filepath in filepaths:
-        print("checking filepath: "+filepath)
+        #print("checking filepath: "+filepath)
         if path.isfile(filepath):
-            print("--- Reading Input File ---")
+            #print("--- Reading Input File ---")
             with open(filepath, newline='') as fp:
                 if(filepaths[0].endswith(".csv")):
                     fp = csv.reader(fp)
                 for line in fp:
                     line = ','.join(line)
-                    print(line)
+                    # print(line)
                     # print(len(line))
                     if(len(line) > 1):
                         newIP = getIPFromLine(line, ipNo)
@@ -67,7 +67,7 @@ def parseIpsFromFiles(filepaths, ipNo):
                                 chunks[newIP].addChunkLine(line)
                         else:
                             titlesLine = line
-    print("--- Read {} Unique IPs ---".format(len(chunks)))
+    print("--- Read {} Unique IPs from {} files ---".format(len(chunks), len(filepaths)))
     return chunks
 
 def countTotalLinesInFiles(files):
