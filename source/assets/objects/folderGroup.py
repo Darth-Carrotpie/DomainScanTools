@@ -37,11 +37,11 @@ class FolderGroup():
             self.groupName = setName
             return
         inters = Intersections([chunk.GetEmails() for chunk in self.chunks])
-        abuseM = [s for s in inters if "abuse" in s]
-        newName = next(iter(abuseM)) if len(abuseM) > 0 else next(iter(inters))
         if(len(inters) == 0):
             self.groupName = ""
         else:
+            abuseM = [s for s in inters if "abuse" in s]
+            newName = next(iter(abuseM)) if len(abuseM) > 0 else next(iter(inters))
             self.groupName = newName.replace("'", '').replace(" ", '')
     
     def IsSingle(self):
